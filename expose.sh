@@ -131,6 +131,7 @@ gallery_type=() # 0 = image, 1 = video, 2 = image sequence
 gallery_maxwidth=() # maximum image size available
 gallery_maxheight=() # maximum height
 gallery_colors=() # extracted color palette for each image
+gallery_metadata=() # datetimestamps
 
 gallery_image_options=() # image commands extracted from post metadata
 gallery_video_options=() # video commands extracted from post metadata
@@ -214,6 +215,11 @@ do
 	then
 		node_name=$(basename "$node")
 	fi
+
+        if [ -f "$node/album_title.txt" ]
+        then
+                node_name=$(<"$node/album_title.txt")
+        fi
 		
 	dircount=$(find "$node" -maxdepth 1 -type d ! -path "$node" ! -path "$node*/_*" | wc -l)
 	dircount_sequence=$(find "$node" -maxdepth 1 -type d ! -path "$node" ! -path "$node*/_*" ! -path "$node/*$sequence_keyword*" | wc -l)
@@ -320,7 +326,7 @@ do
 		filename=$(basename "$file")
 		filedir=$(dirname "$file")
 		filepath=$(winpath "$file")
-		
+
 		trimmed=$(echo "${filename%.*}" | sed -e 's/^[[:space:]0-9]*//;s/[[:space:]]*$//')
 		
 		if [ -z "$trimmed" ]
@@ -406,7 +412,11 @@ do
 		maxwidth=0
 		maxheight=0
 		count=0
-		
+		datetime=$(identify -format "%[exif:DateTimeOriginal]" "$image") 
+		cammake=$(identify -format "%[exif:Make]" "$image")
+		cammodel=$(identify -format "%[exif:Model]" "$image")
+		camlens=$(identify -format "%[exif:LensModel]" "$image")
+
 		for res in "${resolution[@]}"
 		do
 			((count++))
@@ -441,6 +451,7 @@ do
 		gallery_maxwidth+=("$maxwidth")
 		gallery_maxheight+=("$maxheight")
 		gallery_colors+=("$palette")
+		gallery_metadata+=("$datetime, $cammake $cammodel $camlens")
 	done < <(find "$dir" -maxdepth 1 ! -path "$dir" ! -path "$dir*/_*" | sort)
 	
 	nav_count[i]="$index"
@@ -539,11 +550,14 @@ do
 		then
 			content=$(perl "$scriptdir/Markdown_1.0.1/Markdown.pl" --html4tags <(echo "$content"))
 		fi
+
+		cameradata="${gallery_metadata[gallery_index]}"
 		
 		# write to post template
 		post=$(template "$post_template" index "$k")
 		
 		post=$(template "$post" post "$content")
+		post=$(template "$post" cameradata "$cameradata")
 		
 		while read line
 		do
@@ -571,11 +585,12 @@ do
 				fi
 			fi
 		done < <(echo "$metadata")
+
+		content="$content ${gallery_metadata[gallery_index]}"
 		
 		# set image parameters
 		post=$(template "$post" imageurl "${gallery_url[gallery_index]}")
 		post=$(template "$post" imagewidth "${gallery_maxwidth[gallery_index]}")
-		
 		post=$(template "$post" imageheight "${gallery_maxheight[gallery_index]}")
 		
 		# set colors

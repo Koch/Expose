@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{{sitetitle}} - {{gallerytitle}}</title>
+
+		<link href='https://fonts.googleapis.com/css?family=Lato:300,100' rel='stylesheet' type='text/css' />
+		<link href='{{basepath}}global.css' rel='stylesheet' type='text/css' />
+		<script src='{{basepath}}json.js'></script>
+		<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
+		<script src='{{basepath}}cookie.js'></script>
+		<script src='{{basepath}}global.js'></script>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	</head>
+
+	<body data-resolution="{{resolution}}" data-respath="{{resourcepath}}">
+		<ol id="marker"></ol>
+
+		<div class='sidebar'>
+			<div class='foreground'>
+				<h1>{{sitetitle}}</h1>
+				<h2>{{gallerytitle}}</h2>
+
+				<ul id='nav'>
+					{{navigation}}
+				</ul>
+			</div>
+
+			<hr>
+
+			<ul id='control'>
+				<li><a id="resbutton"><span class="monitor icon"></span><span class="restext"></span></a></li>
+				<li style="display: {{text_toggle}}">
+					<a href="#" id="textbutton" class="active">
+						<span class="toggle icon"></span>
+						<span class="text">hide text</span>
+					</a>
+				</li>
+
+				<li style="display: {{metadata_toggle}}">
+					<a href="#" id="metabutton" class="active">
+						<span class="toggle icon"></span>
+						<span class="text">hide metadata</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<div id="resolution"></div>
+
+		<div id="main">
+			{{content}}
+		</div>
+	</body>
+</html>

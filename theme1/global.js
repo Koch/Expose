@@ -242,7 +242,22 @@ $(document).ready(function(){
 		
 		return false;
 	});
-	
+
+	$('#metabutton').click(function(){
+		if($(this).hasClass('active')){
+			$('.metadata').addClass('active');
+			$(this).removeClass('active');
+			$(this).find('.text').text('hide metadata');
+		}
+		else{
+			$('.metadata').removeClass('active');
+			$(this).addClass('active');
+			$(this).find('.text').text('show metadata');
+		}
+
+		return false;
+	});
+
 	// add marker
 	var mheight = 100/$('.slide').length;
 	$('.slide').each(function(i, v){

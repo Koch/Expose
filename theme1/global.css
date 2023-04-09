@@ -78,7 +78,7 @@ a.active:hover, li.active a:hover{
 position: fixed;
 left: 7px;
 top: 0;
-width: 163px;
+width: 180px;
 height: 100%;
 z-index: 10;
 -webkit-transition: color 1s;
@@ -366,7 +366,7 @@ background-color: #000;
 }
 
 #share.active, #resolution.active{
-	width: 163px;
+	width: 240px;
 }
 
 #share ul, #resolution ul{
@@ -414,7 +414,7 @@ border-bottom: 1px solid #aaa;
 
 #main{
 margin: 0;
-padding: 0 0 0 170px;
+padding: 0 0 0 185px;
 min-width: 830px;
 min-height: 100%;
 overflow: hidden;
@@ -510,8 +510,27 @@ opacity: 0;
 .post .content{
 clear: both;
 position: absolute;
-width: 100%;
+width: 75%;
 height: 100%;
+float: left;
+}
+
+.metadata {
+clear: both;
+position: absolute;
+width: 20%;
+height: 100%;
+float: right;
+font: 300 1em 'Lato',helvetica, arial, sans-serif;
+text-align: right;
+visibility: hidden;
+bottom: 0px;
+transition: opacity 0.5s ease-in;
+text-shadow: 3px 3px 12px #000000;
+}
+
+.metadata.active {
+visibility: visible;
 }
 
 .image{
@@ -538,19 +557,23 @@ display: block;
 font: 100 4em 'Lato',helvetica, arial, sans-serif;
 margin: 0;
 padding: 20px 0 10px 0;
+text-shadow: 3px 3px 12px #000000;
 }
 
 .post h1{
+text-shadow: 3px 3px 12px #000000;
 -webkit-text-stroke: 0.5px;
 }
 
 .post h2{
+text-shadow: 3px 3px 12px #000000;
 clear: both;
 font-size: 2em;
 padding: 10px 0 10px 0;
 }
 
 .post h3{
+text-shadow: 3px 3px 12px #000000;
 	clear: both;
 	font: 300 1.2em 'Lato',helvetica, arial, sans-serif;
 	padding: 10px 0 10px 0;
